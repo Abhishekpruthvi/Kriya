@@ -1,0 +1,13 @@
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .paper-container {
+    padding: 20px;
+    text-align: center;
+    width: 300px; /* Adjust the width as needed */
+  }
+  

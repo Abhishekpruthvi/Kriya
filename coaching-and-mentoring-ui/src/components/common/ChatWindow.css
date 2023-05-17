@@ -1,0 +1,114 @@
+/* .chat-window {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    height: 400px;
+    background-color: #f0f0f0;
+    /* Add any other styles as needed */
+  /* } */
+  
+
+  .chat-window {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 30%;
+    height: 70% !important;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: all 0.5s ease;
+    transform: translateY(90%);
+    overflow: hidden;
+  }
+  
+  .chat-window.open {
+    transform: translateY(0);
+  }
+  
+  .chat-header {
+    padding: 10px;
+    background-color: #ddd;
+    cursor: pointer;
+  }
+  
+  .chat-main {
+    height: calc(100% - 100px);
+    overflow-y: scroll;
+    padding: 10px;
+  }
+
+  .chat-content {
+    height: calc(100% - 100px);
+    overflow-y: scroll;
+    padding: 10px;
+  }
+  
+  .chat-footer {
+    padding: 10px;
+    background-color: #ddd;
+  }
+  
+
+  .borderless-input {
+    border: none;
+    outline: none;
+    height: 40px;
+    width: 70%;
+  }
+
+  .submit-button {
+    float: right;
+    min-width: 10px !important;
+    width: 10px;
+  }
+  
+  .float-right {
+    float: right;
+    background-color: rgb(63, 121, 207);
+    
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    font-size: 16px;
+  }
+
+  .float-left {
+    float: left;
+    padding: 5px;
+    background-color: lightgreen;
+
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    font-size: 16px;
+  }
+
+
+
+
+  .chat {
+    display: flex;
+    
+    /* column reverse to have chat-style message ordering*/
+    flex-direction: column;
+  }
+  
+  .message {
+    border: 1px solid gray;
+    margin: 5px;
+    padding: 5px;
+    width: 60%;
+  }
+  
+  .message.is-sent {
+    background: cyan;
+    
+    /* use align-self */
+    align-self: flex-end;
+  }
+  .message.is-received {
+    background: pink;
+  }
+  
