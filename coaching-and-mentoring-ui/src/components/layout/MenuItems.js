@@ -31,8 +31,9 @@ export default function MenuItems(
         <List 
         className="list"
         >
-            {location.pathname.startsWith("/student/") ?
             <ListItem className="list-item" onClick={() => {
+                location.pathname.startsWith("/admin/") ? navigate("/admin/home") :
+                location.pathname.startsWith("/mentor/") ? navigate("/mentor/home") :
                 navigate("student/home")
             }}>
                 <ListItemButton
@@ -45,11 +46,11 @@ export default function MenuItems(
                     </ListItemIcon>
                     <ListItemText className="list-item-text" primary="Home" />
                 </ListItemButton>
-            </ListItem> : null }
+            </ListItem>
 
             {location.pathname.startsWith("/mentor/") ?
             <ListItem className="list-item" onClick={() => {
-                navigate("mentor/home")
+                navigate("mentor/student/list")
             }}>
                 <ListItemButton
                     className="list-item-button"
@@ -59,7 +60,56 @@ export default function MenuItems(
                     >
                         <HiHome />
                     </ListItemIcon>
-                    <ListItemText className="list-item-text" primary="Home" />
+                    <ListItemText className="list-item-text" primary="Student List" />
+                </ListItemButton>
+            </ListItem> : null }
+
+            {location.pathname.startsWith("/mentor/") ?
+            <ListItem className="list-item" onClick={() => {
+                navigate("mentor/file/list")
+            }}>
+                <ListItemButton
+                    className="list-item-button"
+                >
+                    <ListItemIcon
+                        className="list-item-icon"
+                    >
+                        <HiHome />
+                    </ListItemIcon>
+                    <ListItemText className="list-item-text" primary="File List" />
+                </ListItemButton>
+            </ListItem> : null }
+
+
+            {location.pathname.startsWith("/admin/") ?
+            <ListItem className="list-item" onClick={() => {
+                navigate("admin/mentor/list")
+            }}>
+                <ListItemButton
+                    className="list-item-button"
+                >
+                    <ListItemIcon
+                        className="list-item-icon"
+                    >
+                        <HiHome />
+                    </ListItemIcon>
+                    <ListItemText className="list-item-text" primary="Mentor List" />
+                </ListItemButton>
+            </ListItem> : null }
+
+            {location.pathname.startsWith("/admin/") ?
+            <ListItem className="list-item" onClick={() => {
+                navigate("admin/student/list")
+            }}>
+                <ListItemButton
+                    className="list-item-button"
+                >
+                    <ListItemIcon
+                        className="list-item-icon"
+                    >
+                        <HiHome />
+                    </ListItemIcon>
+                    <ListItemText className="list-item-text" primary="Student List" />
                 </ListItemButton>
             </ListItem> : null }
 

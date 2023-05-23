@@ -14,6 +14,7 @@ import { withStyles, makeStyles} from "@mui/styles";
 
 import MenuItems from '../layout/MenuItems';
 import OpenAIChatWindow from '../common/OpenAIChatWindow'
+import AccountDropdown from './AccountDropdown';
 
 
 
@@ -90,7 +91,29 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex"
-  }}));
+  },
+  grow: {
+    flexGrow: 1
+  },
+  sectionDesktop: {
+    display: "flex",
+    alignItems: "center"
+    // [theme.breakpoints.down("md")]: {
+    //   display: "none"
+    // }
+  },
+  div: {
+    display: "flex",
+    alignItems: "center"
+  },
+  list: {
+    width: 240
+  },
+  fullList: {
+    width: "auto"
+  }
+
+}));
 
   const classes = useStyles();
   const theme = useTheme();
@@ -134,6 +157,17 @@ console.log("location=================================", window.location.pathnam
           <Typography variant="h6" noWrap component="div">
             KRIYA Coaching And Mentoring
           </Typography>
+
+          <div className={classes.grow} />
+
+          <div className={classes.sectionDesktop}>
+          
+          <div style={{ borderRadius: "0", display: "flex" }}>
+        
+          </div>
+        </div>
+
+          <AccountDropdown/>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
@@ -141,7 +175,7 @@ console.log("location=================================", window.location.pathnam
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
-        </DrawerHeader>
+        </DrawerHeader> 
         {/* <Divider /> */}
         <MenuItems 
         open={open}

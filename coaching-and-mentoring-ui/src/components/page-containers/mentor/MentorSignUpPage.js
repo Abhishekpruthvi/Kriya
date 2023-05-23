@@ -5,6 +5,7 @@ import CommonForm from '../../common/CommonForm';
 import { KriyaService } from '../../service/KriyaService';
 import SuccessPopup from '../../common/SuccessPopup';
 import FailurePopup from '../../common/FailurePopup';
+import * as Yup from 'yup';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -40,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 function MentorSignupPage() {
   const classes = useStyles();
-  
+
   let formikForm = useRef(null);
 
   const [successOpen, setSuccessOpen] = useState(false)
@@ -55,27 +56,10 @@ function MentorSignupPage() {
   };
 
 
-
-  const handleSubmit = (values, { resetForm }) => {
-    // Handle form submission logic here
-    console.log('Form submitted with value:', values);
-  
-    KriyaService.registerUser(values).then(response => {
-        console.log("response ======================== ", response);
-        if(response.status===200)
-          setSuccessOpen(true);
-        else 
-          setFailureOpen(true);
-          
-        resetForm();
-    });
-
-};
-
   const textFieldStyles = {
     fontSize: '20px',
     border: 'none',
-    padding: '8px' ,
+    padding: '8px',
     backgroundColor: '#f0f0f0',
     margin: '5px'
   };
@@ -145,17 +129,41 @@ function MentorSignupPage() {
   ]
 
   let initialValuesDefault = {
-    firstName:null,
-    lastName:null,
-    userName: null,
-    password: null,
-    mobileNumber: null,
-    email:null,
-    role:"ROLE_MENTOR"
+    firstName: "",
+    lastName: "",
+    userName: "",
+    password: "",
+    mobileNumber: "",
+    email: "",
+    role: "ROLE_MENTOR"
   }
 
 
   const formInitialValues = { ...initialValuesDefault };
+
+  const validationSchema = Yup.object().shape({
+    userName: Yup.string().required('Username is required!'),
+    password: Yup.string().required('Password is required!'),
+    email: Yup.string().email('Invalid email').required('Email is required!'),
+    firstName: Yup.string().required("First Name is required!"),
+    lastName: Yup.string().required("Last Name is required!"),
+    mobileNumber: Yup.string().required("Mobile Number is required!")
+  });
+
+  const handleSubmit = (values, resetForm, setSubmitting) => {
+    // Handle form submission logic here
+    console.log('Form submitted with value:', values);
+
+    KriyaService.registerUser(values).then(response => {
+      console.log("response ======================== ", response);
+      if (response.status === 200)
+        setSuccessOpen(true);
+      else
+        setFailureOpen(true);
+    });
+    setSubmitting(false);
+    resetForm();
+  };
 
   return (
 
@@ -167,26 +175,25 @@ function MentorSignupPage() {
             Mentor Sign Up
          </Typography>
         </Grid>
-        <SuccessPopup open={successOpen} message="Success!" handleClose={handleSuccessClose}/>
-        <FailurePopup open={failureOpen} message="Failure!" handleClose={handleFailureClose}/>
-        <Grid item style={{marginLeft:"10px"}}>
+        <SuccessPopup open={successOpen} message="Success!" handleClose={handleSuccessClose} />
+        <FailurePopup open={failureOpen} message="Failure!" handleClose={handleFailureClose} />
+        <Grid item style={{ marginLeft: "10px" }}>
           <CommonForm
             fields={fields}
             submitLabel={"Sign Up"}
             submittingLabel={"Signing Up"}
-            initialValues={formInitialValues}
+            initialValues={initialValuesDefault}
             // validationSchema={validationSchema}
             // validateOnBlur={true}
             //   edit={!!props.match.params.id}
             // validateOnChange={true}
             enableReinitialize
-            onSubmit={handleSubmit}
-            // onSubmit={(values, { setSubmitting, setFieldError }) => {
-            //   console.log("on submit ================== ", values)
-              
-            //   handleSubmit(values);
-
-            // }}
+            onSubmit={(
+              values,
+              { setSubmitting, resetForm, setFieldError }
+            ) => {
+              handleSubmit(values, resetForm, setSubmitting);
+            }}
             formikRef={formikForm}
             buttonSize={6}
             buttonPosition="center"

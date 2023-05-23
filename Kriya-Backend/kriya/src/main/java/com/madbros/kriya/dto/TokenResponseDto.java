@@ -28,7 +28,6 @@ public class TokenResponseDto {
 
     private String mobileNumber;
 
-
     private RoleEnum role;
 
     private String token ;

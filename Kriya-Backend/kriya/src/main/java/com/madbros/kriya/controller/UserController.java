@@ -13,11 +13,24 @@ import org.springframework.web.bind.annotation.*;
  * @since 16/05/23
  */
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api")
 public class UserController {
+
+    @Autowired
+    UserDetailsService userDetailsService;
 
     @GetMapping("/restricted")
     public ResponseEntity<?> test() {
         return new ResponseEntity<>("Restricted end point",HttpStatus.OK);
+    }
+
+    @GetMapping("/student/list")
+    public ResponseEntity<?> getStudentList() {
+        return new ResponseEntity<>(userDetailsService.getAllStudents(), HttpStatus.OK);
+    }
+
+    @GetMapping("/mentor/list")
+    public ResponseEntity<?> getMentorList() {
+        return new ResponseEntity<>(userDetailsService.getAllMentors(), HttpStatus.OK);
     }
 }

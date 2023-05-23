@@ -17,6 +17,18 @@ const ColorButton = withStyles(theme => ({
   }
 }))(Button);
 
+const UploadButton = withStyles(theme => ({
+  root: {
+    // backgroundImage: "linear-gradient(to bottom, #34409A, #14AAE4)",
+    backgroundImage: "linear-gradient(to bottom, orange, green)",
+    width: "100%",
+    textTransform: "none",
+    "&:hover": {
+      backgroundColor: "linear-gradient(to bottom, #34409A, #14AAE4)"
+    }
+  }
+}))(Button);
+
 const WB = withStyles(theme => ({
   root: {
     backgroundColor: "White",
@@ -167,7 +179,7 @@ export function FileUploadButton({ label, type, onClick, className, value, setFi
     >
       {console.log("file upload butoon ================", label, value)}
       <Grid item xs={12} md={width}>
-        <ColorButton
+        <UploadButton
           variant="contained"
           color="primary"
           component="label"
@@ -182,7 +194,7 @@ export function FileUploadButton({ label, type, onClick, className, value, setFi
         >
           {file===null ? label : file}
           <Input type="file" name={value} style={{ display: "none", height:"50px" }} />
-        </ColorButton>
+        </UploadButton>
       </Grid>
     </Grid>
   );

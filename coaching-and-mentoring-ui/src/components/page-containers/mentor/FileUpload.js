@@ -1,26 +1,34 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Button, Container } from '@mui/material';
 import { Grid, Paper } from '@mui/material';
 import CommonForm from '../../common/CommonForm'
 import '../FormStyles.css'
 import * as Yup from "yup";
-import {Header} from '../../common/HeaderFooter'
+import { Header } from '../../common/HeaderFooter'
+import TemplateForTables from '../../common/table/TemplateForTables'
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Table from '../../common/table/DynamicPaginationTable'
+import { KriyaService } from '../../service/KriyaService'
 
 
 const textFieldStyles = {
     fontSize: '15px',
     border: 'none',
-    padding: '8px' ,
+    padding: '8px',
     backgroundColor: '#f0f0f0',
     margin: '5px'
-  };
+};
 
 
 
 const FileUpload = () => {
 
     let formikForm = useRef(null);
+
+    const [files, setFiles] = React.useState([]);
+    const [status, setStatus] = React.useState("true")
+    const [refresh, setRefresh] = React.useState(false);
 
     let fields = [
         {
@@ -57,40 +65,111 @@ const FileUpload = () => {
             }
         }
     ]
-    const handleSubmit = (values) => {
+
+    useEffect(() => {
+        KriyaService.fetchAllFiles().then(response => {
+            setFiles(response.data)
+        });
+    }, [refresh]);
+
+
+    const columns = React.useMemo(
+        () => [
+
+            {
+                Header: "ID",
+                accessor: "fileId"
+            },
+            {
+                Header: "File Name",
+                accessor: "fileName",
+            },
+            {
+                Header: "Description",
+                accessor: "description"
+            },
+            {
+                Header: "Owner",
+                accessor: "ownerName"
+            },
+            {
+                Header: "Download",
+                accessor: "download",
+                Cell: ({ row, cell }) => {
+                    return (
+                        <>
+                            <Button onClick={() => handleDownload(row.original.fileId, row.original.fileName)}
+                            >
+                                <span>Download</span>
+                            </Button>
+                        </>
+                    );
+                }
+            }
+        ],
+        []
+    );
+
+
+    const data = React.useMemo(() => [...files]);
+
+
+    const handleDownload = (fileId, fileName) => {
+        console.log("handle download=====================", fileId)
+        KriyaService.downloadFile(fileId).then((response) => {
+            // Create a temporary URL for the downloaded file
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+
+            // Create a link element and simulate a click to trigger the file download
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', fileName);
+            document.body.appendChild(link);
+            link.click();
+
+            // Clean up the temporary URL and remove the link element
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(link);
+        })
+            .catch((error) => {
+                console.error('File download error:', error);
+            });
+    }
+
+    const handleSubmit = (values, setSubmitting, resetForm) => {
         // Handle form submission with file and field data
-        console.log(values);
+        KriyaService.uploadFile(values);
+        setSubmitting(false);
+        resetForm();
+        window.location.reload();
     };
 
     let initialValuesDefault = {
-        fileName: null,
-        fileDescription: null,
-        fileUpload:null
+        fileName: "",
+        fileDescription: "",
+        fileUpload: ""
     }
 
-    const formInitialValues = { ...initialValuesDefault };
 
     const validationSchema = Yup.object().shape({
-        // fileName: Yup.string().required('Name is required'),
-        // fileDescription: Yup.string().required('Name is required'),
-        // fileUpload: Yup.string().required('Name is required'),
-        // email field without validation rule
-      });
+        fileName: Yup.string().required('Name is required'),
+        fileDescription: Yup.string().required('Description is required'),
+        fileUpload: Yup.string().required('Name is required')
+    });
 
-      console.log("values=============",formInitialValues)
     return (
         <Grid container>
-                <Grid item xs={12}>
-        <Header
-          title="Mentor File Upload"
-          breadcrumbs={[
-            { label: "Home", link: "/home" },
-            { label: "Mentor File Upload" }
-          ]}
-        />
-      </Grid>
+            <Grid item xs={12}>
+                <Header
+                    title="Mentor File Upload"
+                    breadcrumbs={[
+                        { label: "Home", link: "/home" },
+                        { label: "Mentor File Upload" }
+                    ]}
+                />
+            </Grid>
             <Grid container>
-                <Paper elevation={2} style={{ padding: "3em" , width:"100%" }}>
+                <Paper elevation={2} style={{ padding: "3em", width: "100%" }}>
                     {/* <Grid item>
                         <h2>Mentor File Upload</h2>
                     </Grid> */}
@@ -99,15 +178,15 @@ const FileUpload = () => {
                             fields={fields}
                             submitLabel={"Submit"}
                             submittingLabel={"Submitting"}
-                            initialValues={formInitialValues}
-                            // validationSchema={Yup.object().shape(validationSchema)}
-                            // validateOnBlur={true}
+                            initialValues={initialValuesDefault}
+                            validationSchema={validationSchema}
+                            validateOnBlur={true}
                             //   edit={!!props.match.params.id}
-                            // validateOnChange={true}
+                            validateOnChange={true}
                             enableReinitialize
-                            onSubmit={(values, { setSubmitting, setFieldError }) => {
+                            onSubmit={(values, { setSubmitting, setFieldError, resetForm }) => {
                                 console.log("on submit ================== ", values)
-                                // createSubOrganization(values, setSubmitting);
+                                handleSubmit(values, setSubmitting, resetForm);
                             }}
                             formikRef={formikForm}
                             buttonSize="3"
@@ -116,6 +195,36 @@ const FileUpload = () => {
                     </Grid>
                 </Paper>
             </Grid>
+
+            <TemplateForTables
+                // dropdownitems={dropitems}
+                needDropdown={false}
+            // importIcons
+            >
+                {status === "loading" ? (
+                    <Grid
+                        container
+                        justify="center"
+                        alignItems="center"
+                        style={{ height: "50vh" }}
+                    >
+                        <CircularProgress />
+                    </Grid>
+                ) : (
+                        <Table
+                            columns={columns}
+                            data={data}
+                        // paginationInfo={{
+                        //     pageIndex: Number(query.get("page")),
+                        //     nextPage,
+                        //     previousPage,
+                        //     pageSize: Number(query.get("size")),
+                        //     setPageSize: handlePageSize,
+                        //     pageInfo
+                        // }}
+                        /> 
+                    )}
+            </TemplateForTables>
         </Grid>
 
         // <div className="form-container">

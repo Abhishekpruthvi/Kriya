@@ -34,7 +34,7 @@ function MentorHome() {
                         }}
                         // onClick={() => navigate('/student/test1')}
                         >
-                            <CardContent>
+                            <CardContent onClick={()=> navigate('/mentor/student/list')}>
                                 <Typography variant="h5" component="div" align="center">
                                     Student List
                                 </Typography>

@@ -81,6 +81,7 @@ const textFieldStyles = {
 };
 
 
+
 function LoginPage() {
   const classes = useStyles();
   const [username, setUsername] = useState('');
@@ -146,6 +147,7 @@ function LoginPage() {
     KriyaService.login(values).then(response => {
       console.log("response ======================== ", response);
       if (response.status === 200) {
+        localStorage.setItem("kriyaUser",JSON.stringify(response.data));
         if (response.data.role === "ROLE_MENTOR")
           navigate('/mentor/home')
         else if (response.data.role === "ROLE_STUDENT")
@@ -169,10 +171,11 @@ function LoginPage() {
     password: null
   }
 
-  // const validationSchema = Yup.object().shape({
-  //   userName: Yup.string().email('Invalid email').required('Email is required'),
-  //   password: Yup.string().required('Password is required'),
-  // });
+  const validationSchema = Yup.object().shape({
+    // userName: Yup.string().email('Invalid email').required('Email is required'),
+    userName: Yup.string().required('Username is required!'),
+    password: Yup.string().required('Password is required!'),
+  });
 
   const formInitialValues = { ...initialValuesDefault };
 
@@ -205,10 +208,10 @@ function LoginPage() {
             submitLabel={"Login"}
             submittingLabel={"Logging In"}
             initialValues={formInitialValues}
-            // validationSchema={validationSchema}
-            // validateOnBlur={true}
+            validationSchema={validationSchema}
+            validateOnBlur={true}
             //   edit={!!props.match.params.id}
-            // validateOnChange={true}
+            validateOnChange={true}
             enableReinitialize
             onSubmit={handleSubmit}
             // onSubmit={(values, { setSubmitting, setFieldError }) => {

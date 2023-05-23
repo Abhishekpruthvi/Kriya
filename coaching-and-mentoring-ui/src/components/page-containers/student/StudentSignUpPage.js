@@ -5,6 +5,7 @@ import CommonForm from '../../common/CommonForm'
 import { KriyaService } from '../../service/KriyaService';
 import SuccessPopup from '../../common/SuccessPopup';
 import FailurePopup from '../../common/FailurePopup';
+import * as Yup from 'yup';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -145,18 +146,26 @@ function StudentSignupPage() {
   ]
 
   let initialValuesDefault = {
-    firstName: null,
-    lastName: null,
-    userName: null,
-    password: null,
-    mobileNumber: null,
-    email: null,
+    firstName: "",
+    lastName: "",
+    userName: "",
+    password: "",
+    mobileNumber: "",
+    email: "",
     role: "ROLE_STUDENT"
   }
 
 
-  const formInitialValues = { ...initialValuesDefault };
+  // const formInitialValues = { ...initialValuesDefault };
 
+  const validationSchema = Yup.object().shape({
+    userName: Yup.string().required('Username is required!'),
+    password: Yup.string().required('Password is required!'),
+    email: Yup.string().email('Invalid email').required('Email is required!'),
+    firstName: Yup.string().required("First Name is required!"),
+    lastName: Yup.string().required("Last Name is required!"),
+    mobileNumber: Yup.string().required("Mobile Number is required!")
+  });
 
   return (
     <Grid container className={classes.container}>
@@ -173,11 +182,11 @@ function StudentSignupPage() {
             fields={fields}
             submitLabel={"Sign Up"}
             submittingLabel={"Signing Up"}
-            initialValues={formInitialValues}
-            // validationSchema={validationSchema}
-            // validateOnBlur={true}
+            initialValues={initialValuesDefault}
+            validationSchema={validationSchema}
+            validateOnBlur={true}
             //   edit={!!props.match.params.id}
-            // validateOnChange={true}
+            validateOnChange={true}
             enableReinitialize
             onSubmit={handleSubmit}
             formikRef={formikForm}

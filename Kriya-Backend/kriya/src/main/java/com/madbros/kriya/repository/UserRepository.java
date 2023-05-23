@@ -1,9 +1,11 @@
 package com.madbros.kriya.repository;
 
+import com.madbros.kriya.enums.RoleEnum;
 import com.madbros.kriya.model.UserDetails;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -18,4 +20,5 @@ public interface UserRepository extends JpaRepository<UserDetails, Long> {
 
     UserDetails findByUserNameAndPassword(String userName, String password);
 
+    List<UserDetails> findAllByRole(RoleEnum role);
 }

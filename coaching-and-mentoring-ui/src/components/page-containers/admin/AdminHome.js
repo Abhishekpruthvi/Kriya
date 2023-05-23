@@ -23,7 +23,7 @@ function AdminHome() {
     return (
         <>
             <div style={{ width: "100%" }}>
-                <Header title="KRIYA Admmin Home Page"
+                <Header title="KRIYA Admin Home Page"
                     breadcrumbs={breadcrumbs} />
 
 

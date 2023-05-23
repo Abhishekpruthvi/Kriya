@@ -11,6 +11,8 @@ import FileUpload from './components/page-containers/mentor/FileUpload'
 import AdminLoginPage from './components/page-containers/admin/AdminLoginPage'
 import AdminHome from './components/page-containers/admin/AdminHome'
 import MentorHome from './components/page-containers/mentor/MentorHome'
+import MentorList from './components/page-containers/mentor/MentorList'
+import StudentList from './components/page-containers/student/StudentList'
 import {
   createBrowserRouter,
   RouterProvider,
@@ -54,8 +56,20 @@ const router = createBrowserRouter([
         element: <MentorHome />,
       },
       {
+        path: "mentor/student/list",
+        element: <StudentList />,
+      },
+      {
         path: "/admin/home",
         element: <AdminHome />,
+      },
+      {
+        path: "/admin/mentor/list",
+        element: <MentorList />,
+      },
+      {
+        path: "/admin/student/list",
+        element: <StudentList />,
       },
       {
         path: "/student/test1",
@@ -66,7 +80,7 @@ const router = createBrowserRouter([
         element: <StudentVAKTest />,
       },
       {
-        path:"/mentor/fileupload",
+        path:"/mentor/file/list",
         element: <FileUpload />
       }
     ]
