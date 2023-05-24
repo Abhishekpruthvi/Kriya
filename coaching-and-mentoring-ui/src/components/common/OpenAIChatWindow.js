@@ -6,6 +6,7 @@ import { openAIService } from '../service/openAIService';
 import { Formik, Form, Field, resetForm } from 'formik';
 import { TextField, Button, Box } from '@mui/material';
 import { styled } from '@mui/system';
+import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 
 
 
@@ -72,8 +73,10 @@ function OpenAIChatWindow() {
     };
     let formInitialValues = { ...initialValuesDefault }
     return (
-
-        <ChatBotContainer className={`chat-window ${isOpen ? 'open' : 'closed'}`}>
+        <>
+        <ContactSupportIcon color="primary" style={{fontSize:"50px"}} className="contact-support-icon"  onClick={()=>setIsOpen(!isOpen)}/>
+        {isOpen ? 
+        <ChatBotContainer className={`chat-window open`}>
             <div className="chat-header" onClick={toggleChatWindow}>
                 How can I help you today ?
              </div>
@@ -119,6 +122,8 @@ function OpenAIChatWindow() {
                 </Form>
             </Formik>
         </ChatBotContainer>
+        : null}
+        </>
 
 
 

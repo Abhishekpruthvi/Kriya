@@ -138,7 +138,6 @@ const useStyles = makeStyles(theme => ({
 
   },[menu])
 
-console.log("location=================================", window.location.pathname)
   return (
     <CssBaseline>
       <div className={classes.root}>
