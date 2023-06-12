@@ -10,6 +10,9 @@ import TemplateForTables from '../../common/table/TemplateForTables'
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Table from '../../common/table/DynamicPaginationTable'
 import { KriyaService } from '../../service/KriyaService'
+import DeleteIcon from '@mui/icons-material/Delete';
+import DownloadIcon from '@mui/icons-material/Download';
+import SuccessPopup from '../../common/SuccessPopup';
 
 
 const textFieldStyles = {
@@ -27,7 +30,9 @@ const FileUpload = () => {
     let formikForm = useRef(null);
 
     const [files, setFiles] = React.useState([]);
-    const [status, setStatus] = React.useState("true")
+    const [success, setSuccess] = React.useState(false);
+    const [message, setMessage] = React.useState("Success");
+    const [status, setStatus] = React.useState(false);
     const [refresh, setRefresh] = React.useState(false);
 
     let fields = [
@@ -100,12 +105,27 @@ const FileUpload = () => {
                         <>
                             <Button onClick={() => handleDownload(row.original.fileId, row.original.fileName)}
                             >
-                                <span>Download</span>
+                                <DownloadIcon/>
+                            </Button>
+                        </>
+                    );
+                }
+            },
+            {
+                Header: "Delete",
+                accessor: "delete",
+                Cell: ({ row, cell }) => {
+                    return (
+                        <>
+                            <Button onClick={() => handleDelete(row.original.fileId)}
+                            >
+                                <DeleteIcon/>
                             </Button>
                         </>
                     );
                 }
             }
+
         ],
         []
     );
@@ -113,6 +133,16 @@ const FileUpload = () => {
 
     const data = React.useMemo(() => [...files]);
 
+
+    const handleClose = () => {
+        window.location.reload();
+    }
+
+    const handleDelete = (fileId) => {
+        KriyaService.deleteFile(fileId);
+        setSuccess(true);
+        setMessage("File Deleted Successfully!")
+    }
 
     const handleDownload = (fileId, fileName) => {
         console.log("handle download=====================", fileId)
@@ -141,7 +171,8 @@ const FileUpload = () => {
         KriyaService.uploadFile(values);
         setSubmitting(false);
         resetForm();
-        window.location.reload();
+        setSuccess(true);
+        setMessage("File Uploaded Successfully!")
     };
 
     let initialValuesDefault = {
@@ -225,6 +256,12 @@ const FileUpload = () => {
                         /> 
                     )}
             </TemplateForTables>
+            <SuccessPopup 
+                open={success}
+                message={message}
+                handleClose={handleClose}
+                autoHideDuration={5000}
+            />
         </Grid>
 
         // <div className="form-container">

@@ -15,7 +15,7 @@ public class ErrorCodes {
     /**
      * MessageId needs to be defined in validation property file.
      *
-     * @author Rashmi
+     * @author Abhishek Pruthvi V M
      */
     public enum Exception_Codes {
 

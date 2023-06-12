@@ -58,4 +58,10 @@ public class FileUploadController {
         }
         return new ResponseEntity<>(file.getContent(), HttpStatus.OK);
     }
+
+    @DeleteMapping("/delete/{fileId}")
+    public ResponseEntity<?> deleteFile(@PathVariable("fileId") Long fileId) {
+        fileService.deleteFileByFileId(fileId);
+        return new ResponseEntity<>("", HttpStatus.NO_CONTENT);
+    }
 }

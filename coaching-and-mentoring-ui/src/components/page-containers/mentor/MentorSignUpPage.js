@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100vh',
+    height: '110vh',
     backgroundImage: 'linear-gradient(180deg, #C7C5F4, #776BCC)',
   },
   paper: {
@@ -46,6 +46,7 @@ function MentorSignupPage() {
 
   const [successOpen, setSuccessOpen] = useState(false)
   const [failureOpen, setFailureOpen] = useState(false);
+  const [message, setMessage] = useState("");
 
   const handleSuccessClose = () => {
     setSuccessOpen(false);
@@ -59,7 +60,7 @@ function MentorSignupPage() {
   const textFieldStyles = {
     fontSize: '20px',
     border: 'none',
-    padding: '8px',
+    padding: '4px',
     backgroundColor: '#f0f0f0',
     margin: '5px'
   };
@@ -156,13 +157,16 @@ function MentorSignupPage() {
 
     KriyaService.registerUser(values).then(response => {
       console.log("response ======================== ", response);
-      if (response.status === 200)
-        setSuccessOpen(true);
-      else
-        setFailureOpen(true);
+      setSuccessOpen(true);
+      setMessage("Student Registration Successful!")
+      resetForm();
+    }).catch(error => {
+      setFailureOpen(true);
+      setMessage(error.response.data.message)
+      resetForm();
     });
-    setSubmitting(false);
-    resetForm();
+
+
   };
 
   return (
@@ -175,18 +179,18 @@ function MentorSignupPage() {
             Mentor Sign Up
          </Typography>
         </Grid>
-        <SuccessPopup open={successOpen} message="Success!" handleClose={handleSuccessClose} />
-        <FailurePopup open={failureOpen} message="Failure!" handleClose={handleFailureClose} />
+        <SuccessPopup open={successOpen} message={message} handleClose={handleSuccessClose} />
+        <FailurePopup open={failureOpen} message={message} handleClose={handleFailureClose} />
         <Grid item style={{ marginLeft: "10px" }}>
           <CommonForm
             fields={fields}
             submitLabel={"Sign Up"}
             submittingLabel={"Signing Up"}
             initialValues={initialValuesDefault}
-            // validationSchema={validationSchema}
-            // validateOnBlur={true}
+            validationSchema={validationSchema}
+            validateOnBlur={true}
             //   edit={!!props.match.params.id}
-            // validateOnChange={true}
+            validateOnChange={true}
             enableReinitialize
             onSubmit={(
               values,

@@ -10,6 +10,7 @@ const ColorButton = withStyles(theme => ({
   root: {
     backgroundImage: "linear-gradient(to bottom, #34409A, #14AAE4)",
     width: "100%",
+    margin:"10px",
     textTransform: "none",
     "&:hover": {
       backgroundColor: "linear-gradient(to bottom, #34409A, #14AAE4)"
@@ -61,9 +62,24 @@ export function WhiteButton({
   className,
   children,
   width,
-  position
+  position,
+  inlineButton
 }) {
   return (
+    inlineButton === true ? (
+      <Grid item xs={12} sm={width}>
+        <FormControl margin="dense" fullWidth="true">
+        <WB
+          className={className}
+          variant="contained"
+          type={!!type ? type : undefined}
+          onClick={onClick}
+        >
+          {label}
+        </WB>
+        </FormControl>
+      </Grid>
+    ) :
     <Grid
       container
       justifyContent={
@@ -95,14 +111,15 @@ export function CustomizedPrimaryButton({
   width,
   position,
   inlineButton,
-  fixedBUtton
+  fixedBUtton,
+  color
 }) {
   return inlineButton === true ? (
-    <Grid item xs={12} sm={width}>
+    <Grid item xs={12} sm={width} padding="100px">
       <FormControl margin="dense" fullWidth="true">
         <ColorButton
           variant="contained"
-          color="primary"
+          color={color}
           onClick={onClick}
           className={className}
           type={!!type ? type : undefined}

@@ -100,6 +100,8 @@ function CommonForm({
                         errorMessage={getIn(errors, field.name)}
                         // touched={getIn(errors, field.name)}
                         {...metaProps}
+                        inputProps={{ style: field.grid.style }}
+                        
                     />
                 )}
                 {field.type === "fileUpload" && (

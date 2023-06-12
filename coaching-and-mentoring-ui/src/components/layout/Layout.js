@@ -1,4 +1,5 @@
 import {useState, useEffect} from 'react';
+import {useLocation} from 'react-router-dom';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -117,9 +118,10 @@ const useStyles = makeStyles(theme => ({
 
   const classes = useStyles();
   const theme = useTheme();
+  const location = useLocation();
   const [open, setOpen] = useState(true);
 
-  const [menu,  setMenu] = useState(window.location.pathname);
+  const [menu,  setMenu] = useState(location.pathname);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -169,6 +171,10 @@ const useStyles = makeStyles(theme => ({
           <AccountDropdown/>
         </Toolbar>
       </AppBar>
+
+      {console.log("checkin pathe======================= {}", location.pathname)}
+      {!(location.pathname.endsWith("/") || location.pathname.includes("/contact") || location.pathname.endsWith("/signup") || location.pathname.endsWith("/login")) ? 
+      <>
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
@@ -181,9 +187,10 @@ const useStyles = makeStyles(theme => ({
         handleMenuChange={handleMenuChange}
         />
       </Drawer>
-      {/* <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-      </Box>  */}
       <OpenAIChatWindow/>
+      </>
+
+      : null }
     </div>
     </CssBaseline>
   );

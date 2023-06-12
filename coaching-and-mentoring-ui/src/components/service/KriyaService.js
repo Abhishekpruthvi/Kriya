@@ -143,6 +143,31 @@ async function downloadFile(fileId) {
 
 }
 
+async function deleteFile(fileId) {
+    const user = getUserDetails();
+    console.log("Delete API ", user);
+    let url = `${getBaseUsrl()}${process.env.REACT_APP_DELETE_FILE}/${fileId}`
+    let options = {
+        method: 'DELETE',
+        url: url,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8',
+            Authorization: `Bearer ${user.token}`,
+            userName: user.userName
+        }
+    };
+    try{
+        let response = await axios(options);
+    return response;
+    } catch(error) {
+        console.log('Error', error);
+        return error;
+    }
+
+}
+
+
 async function uploadFile(file) {
     console.log("file ========================", file)
     const user = getUserDetails();
@@ -176,6 +201,131 @@ async function uploadFile(file) {
     
 }
 
+async function contactAnalyst(data) {
+    // const user = getUserDetails();
+    // console.log("User details fetched", user);
+    let url = `${getBaseUsrl()}${process.env.REACT_APP_CONTACT_ANALYST}`
+    let options = {
+        method: 'POST',
+        url: url,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8',
+            // Authorization: `Bearer ${user.token}`,
+            // userName: user.userName
+        },
+        data:data
+    };
+    try{
+        let response = await axios(options);
+    return response;
+    } catch(error) {
+        console.log('Error', error);
+        return error;
+    }
+    
+}
+
+async function contactCourse(data) {
+    // const user = getUserDetails();
+    // console.log("User details fetched", user);
+    let url = `${getBaseUsrl()}${process.env.REACT_APP_CONTACT_COURSE}`
+    let options = {
+        method: 'POST',
+        url: url,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8',
+            // Authorization: `Bearer ${user.token}`,
+            // userName: user.userName
+        },
+        data:data
+    };
+    try{
+        let response = await axios(options);
+    return response;
+    } catch(error) {
+        console.log('Error', error);
+        return error;
+    }
+    
+}
+
+async function contactGuest(data) {
+    // const user = getUserDetails();
+    // console.log("User details fetched", user);
+    let url = `${getBaseUsrl()}${process.env.REACT_APP_CONTACT_GUEST}`
+    let options = {
+        method: 'POST',
+        url: url,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8',
+            // Authorization: `Bearer ${user.token}`,
+            // userName: user.userName
+        },
+        data:data
+    };
+    try{
+        let response = await axios(options);
+    return response;
+    } catch(error) {
+        console.log('Error', error);
+        return error;
+    }
+    
+}
+
+async function contactMentor(data) {
+    // const user = getUserDetails();
+    // console.log("User details fetched", user);
+    let url = `${getBaseUsrl()}${process.env.REACT_APP_CONTACT_MENTOR}`
+    let options = {
+        method: 'POST',
+        url: url,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8',
+            // Authorization: `Bearer ${user.token}`,
+            // userName: user.userName
+        },
+        data:data
+    };
+    try{
+        let response = await axios(options);
+    return response;
+    } catch(error) {
+        console.log('Error', error);
+        return error;
+    }
+    
+}
+
+async function contactWorkshop(data) {
+    // const user = getUserDetails();
+    // console.log("User details fetched", user);
+    let url = `${getBaseUsrl()}${process.env.REACT_APP_CONTACT_WORKSHOP}`
+    let options = {
+        method: 'POST',
+        url: url,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8',
+            // Authorization: `Bearer ${user.token}`,
+            // userName: user.userName
+        },
+        data:data
+    };
+    try{
+        let response = await axios(options);
+    return response;
+    } catch(error) {
+        console.log('Error', error);
+        return error;
+    }
+    
+}
+
 export const KriyaService = {
     registerUser,
     login,
@@ -183,5 +333,11 @@ export const KriyaService = {
     fetchAllStudents,
     fetchAllFiles,
     downloadFile,
-    uploadFile
+    deleteFile,
+    uploadFile,
+    contactAnalyst,
+    contactCourse,
+    contactGuest,
+    contactMentor,
+    contactWorkshop,
 }

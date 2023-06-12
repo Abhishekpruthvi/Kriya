@@ -13,6 +13,13 @@ import AdminHome from './components/page-containers/admin/AdminHome'
 import MentorHome from './components/page-containers/mentor/MentorHome'
 import MentorList from './components/page-containers/mentor/MentorList'
 import StudentList from './components/page-containers/student/StudentList'
+import MainPage from './components/page-containers/MainPage';
+import ContactPage from './components/page-containers/ContactPage';
+import Workshop from './components/page-containers/forms/Workshop';
+import Course from './components/page-containers/forms/Course';
+import Mentor from './components/page-containers/forms/Mentor';
+import Guest from './components/page-containers/forms/Guest';
+import Analyst from './components/page-containers/forms/Analyst';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -21,32 +28,57 @@ import {
 const router = createBrowserRouter([
   {
     path:"/",
-    element:<LoginPage/>,
-  },
-  {
-    path:"/admin/",
-    element:<AdminLoginPage/>,
-  },
-  {
-    path:"/admin/login",
-    element:<AdminLoginPage/>,
-  },
-  {
-    path:"/login",
-    element:<LoginPage/>,
-  },
-  {
-    path:"/mentor/signup",
-    element:<MentorSignupPage/>,
-  },
-  {
-    path:"/student/signup",
-    element:<StudentSignupPage/>,
-  },
-  {
-    path:"/",
     element:<Wrapper/>,
     children:[
+
+      {
+        path:"/",
+        element:<MainPage/>,
+      },
+      {
+        path:"/contact",
+        element: <ContactPage/>,
+      },
+      {
+        path:"/contact/workshop",
+        element:<Workshop/>,
+      },
+      {
+        path:"/contact/course",
+        element:<Course/>,
+      },
+      {
+        path:"/contact/guest",
+        element:<Guest/>,
+      },
+      {
+        path:"/contact/analyst",
+        element:<Analyst/>,
+      },
+      {
+        path:"/contact/mentor",
+        element:<Mentor/>,
+      },
+      {
+        path:"/admin",
+        element:<AdminLoginPage/>,
+      },
+      {
+        path:"/admin/login",
+        element:<AdminLoginPage/>,
+      },
+      {
+        path:"/login",
+        element:<LoginPage/>,
+      },
+      {
+        path:"/mentor/signup",
+        element:<MentorSignupPage/>,
+      },
+      {
+        path:"/student/signup",
+        element:<StudentSignupPage/>,
+      },
       {
         path: "student/home",
         element: <StudentHome />,

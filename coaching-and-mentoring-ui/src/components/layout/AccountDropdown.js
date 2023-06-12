@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 //import { useDispatch } from "react-redux";
 import IconButton from "@material-ui/core/IconButton";
 import Badge from "@material-ui/core/Badge";
@@ -65,6 +65,7 @@ export default function AccountDropdown() {
   const user = JSON.parse(localStorage.getItem("kriyaUser"));
   const userName = user && user.userName;
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const navigate = useNavigate();
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -72,9 +73,11 @@ export default function AccountDropdown() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  // const handleSignOut = async () => {
-  //   navigate("/login")
-  // };
+  const handleSignOut = async () => {
+    localStorage.removeItem("kriyaUser");
+    navigate("/login")
+    setAnchorEl(null);
+  };
 
   const classes = useStyles();
 
@@ -109,12 +112,13 @@ export default function AccountDropdown() {
             {t("config_ChangePassword_Heading_Label")}
           </StyledMenuItem>
         </Link> */}
-        <Link to="/login">
-          <StyledMenuItem //onClick={handleSignOut}
+        {/* <Link to="/login"> */}
+          <StyledMenuItem onClick={handleSignOut}
           >
-            Sign Out
+            {userName != null ? "Sign Out" : "Log In"}
+            
           </StyledMenuItem>
-        </Link>
+        {/* </Link> */}
       </StyledMenu>
     </div>
   );

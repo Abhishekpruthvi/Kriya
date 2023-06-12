@@ -10,6 +10,7 @@ import java.util.List;
  */
 public interface UserDetailsService {
      UserDetails saveUser(UserDetails user);
+
      UserDetails findByUserNameAndPassword(String name, String password);
 
      List<UserDetails> getAllStudents();

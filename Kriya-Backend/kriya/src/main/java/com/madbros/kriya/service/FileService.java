@@ -17,4 +17,6 @@ public interface FileService {
     List<FileProjection> getAllFileByOwnerName(String ownerName);
 
     File getFileByFileId(Long fileId);
+
+    void deleteFileByFileId(Long fileId);
 }
