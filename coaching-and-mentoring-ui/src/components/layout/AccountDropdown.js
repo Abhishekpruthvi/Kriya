@@ -84,7 +84,9 @@ export default function AccountDropdown() {
   return (
     <div>
       <div className={classes.div} onClick={handleClick}>
-        <Typography variant="inherit">{userName}</Typography>
+        <Typography variant="inherit">{userName != null ? userName : <Link to="/contact">
+          Contact Us
+        </Link>}</Typography>
         <IconButton
           aria-label="Home"
           color="inherit"
@@ -113,11 +115,11 @@ export default function AccountDropdown() {
           </StyledMenuItem>
         </Link> */}
         {/* <Link to="/login"> */}
-          <StyledMenuItem onClick={handleSignOut}
-          >
-            {userName != null ? "Sign Out" : "Log In"}
-            
-          </StyledMenuItem>
+        <StyledMenuItem onClick={handleSignOut}
+        >
+          {userName != null ? "Sign Out" : "Log In"}
+
+        </StyledMenuItem>
         {/* </Link> */}
       </StyledMenu>
     </div>

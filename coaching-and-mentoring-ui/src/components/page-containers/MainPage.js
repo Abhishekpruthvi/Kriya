@@ -46,9 +46,7 @@ export default function MainPage() {
       </div> */}
 
       <div style={{marginTop:"50px", textAlign:"center"}}>
-        <Link to="/contact">
-          <h1>Contact Us</h1>
-        </Link>
+        
         <img src={aboutUs} alt="Image Description" />
 
         <img src={studentProgram} alt="Image Description" />

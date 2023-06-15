@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import {useLocation} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -16,6 +16,7 @@ import { withStyles, makeStyles} from "@mui/styles";
 import MenuItems from '../layout/MenuItems';
 import OpenAIChatWindow from '../common/OpenAIChatWindow'
 import AccountDropdown from './AccountDropdown';
+import Button from '@mui/material/Button'
 
 
 
@@ -119,6 +120,7 @@ const useStyles = makeStyles(theme => ({
   const classes = useStyles();
   const theme = useTheme();
   const location = useLocation();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(true);
 
   const [menu,  setMenu] = useState(location.pathname);
@@ -140,6 +142,11 @@ const useStyles = makeStyles(theme => ({
 
   },[menu])
 
+  const goToLandingPage = () => {
+    localStorage.removeItem("kriyaUser");
+    navigate("")
+  }
+
   return (
     <CssBaseline>
       <div className={classes.root}>
@@ -155,9 +162,11 @@ const useStyles = makeStyles(theme => ({
           >
             <MenuIcon />
           </IconButton>
+          <Button onClick={()=> goToLandingPage()} color="inherit" style={{marginTop:"5px"}}> 
           <Typography variant="h6" noWrap component="div">
             KRIYA Coaching And Mentoring
           </Typography>
+          </Button>
 
           <div className={classes.grow} />
 
@@ -172,7 +181,6 @@ const useStyles = makeStyles(theme => ({
         </Toolbar>
       </AppBar>
 
-      {console.log("checkin pathe======================= {}", location.pathname)}
       {!(location.pathname.endsWith("/") || location.pathname.includes("/contact") || location.pathname.endsWith("/signup") || location.pathname.endsWith("/login")) ? 
       <>
       <Drawer variant="permanent" open={open}>
